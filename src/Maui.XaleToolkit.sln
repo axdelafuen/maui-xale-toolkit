@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36310.24
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui.XaleToolkit", "Maui.XaleToolkit\Maui.XaleToolkit.csproj", "{D1F729FE-7D77-4F9B-8506-93B972D5C6C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maui.XaleToolkit.Samples", "Maui.XaleToolkit.Samples\Maui.XaleToolkit.Samples.csproj", "{370A2A81-4840-412E-85D8-A747FC812A5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D1F729FE-7D77-4F9B-8506-93B972D5C6C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1F729FE-7D77-4F9B-8506-93B972D5C6C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1F729FE-7D77-4F9B-8506-93B972D5C6C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1F729FE-7D77-4F9B-8506-93B972D5C6C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{370A2A81-4840-412E-85D8-A747FC812A5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{370A2A81-4840-412E-85D8-A747FC812A5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{370A2A81-4840-412E-85D8-A747FC812A5F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{370A2A81-4840-412E-85D8-A747FC812A5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{370A2A81-4840-412E-85D8-A747FC812A5F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D457E93F-A8E9-4152-A09D-50D8E5730989}
+	EndGlobalSection
+EndGlobal
