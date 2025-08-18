@@ -21,6 +21,6 @@ jobs:
       with:
         dotnet-version: 9.0.x
     - name: Restore dependencies
-      run: dotnet restore ./Maui.XaleToolkit.sln
+      run: dotnet restore ./src/Maui.XaleToolkit.sln
     - name: Build
-      run: dotnet build --no-restore ./Maui.XaleToolkit.sln
+      run: dotnet build --no-restore ./src/Maui.XaleToolkit.sln
