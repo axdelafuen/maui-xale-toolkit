@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 
 namespace Maui.XaleToolkit.Views.ComboBox
 {
-    public class ComboBox : View, IComboBox
+    public partial class ComboBox : View, IComboBox
     {
         private object? _previousSelection;
 

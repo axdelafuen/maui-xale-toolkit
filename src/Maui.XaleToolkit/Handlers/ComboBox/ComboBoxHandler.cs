@@ -1,9 +1,9 @@
 ﻿#if IOS || MACCATALYST
-using PlatformView = System.Object;//VideoDemos.Platforms.MaciOS.MauiVideoPlayer;
+using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.MaciosComboBox;
 #elif ANDROID
 using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.AndroidComboBox;
 #elif WINDOWS
-using PlatformView = System.Object; //VideoDemos.Platforms.Windows.MauiVideoPlayer;
+using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.WindowsComboBox;
 #elif (NETSTANDARD || !PLATFORM) || (NET6_0_OR_GREATER && !IOS && !ANDROID)
 using PlatformView = System.Object;
 #endif

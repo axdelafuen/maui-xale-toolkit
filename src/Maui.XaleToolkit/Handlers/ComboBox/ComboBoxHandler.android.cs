@@ -3,9 +3,9 @@ using Android.Content;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
-using Maui.XaleToolkit.Extensions.ComboBox;
-using Maui.XaleToolkit.Interfaces;
 using Microsoft.Maui.Handlers;
+using Maui.XaleToolkit.Interfaces;
+using Maui.XaleToolkit.Extensions.ComboBox;
 using System.Collections;
 using Color = Android.Graphics.Color;
 using View = Android.Views.View;
@@ -97,45 +97,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
             catch (Exception) { }
         }
-
-        #region Property Mappers
-
-        public static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateItemsSource();
-        }
-
-        public static void MapSelectedIndex(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateSelectedIndex();
-        }
-
-        public static void MapSelectedItem(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateSelectedIndex();
-        }
-
-        public static void MapTitle(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateTitle();
-        }
-
-        public static void MapTextColor(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateTextColor();
-        }
-
-        public static void MapFontSize(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateFontSize();
-        }
-
-        public static void MapIsEnabled(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateIsEnabled();
-        }
-
-        #endregion
 
         #region Update Methods
 
