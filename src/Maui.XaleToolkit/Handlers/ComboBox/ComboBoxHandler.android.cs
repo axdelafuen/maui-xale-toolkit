@@ -12,31 +12,16 @@ using View = Android.Views.View;
 
 namespace Maui.XaleToolkit.Handlers.ComboBox
 {
-    public class ComboBoxHandler : ViewHandler<IComboBox, AlwaysFireSpinner>
+    public partial class ComboBoxHandler : ViewHandler<IComboBox, AndroidComboBox>
     {
         private SpinnerAdapter? _adapter;
         private bool _isUpdatingSelection;
         private bool _isInitialized = false;
 
-        new private static IPropertyMapper<IComboBox, ComboBoxHandler> ViewMapper = new PropertyMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewMapper)
-        {
-            [nameof(IComboBox.ItemsSource)] = MapItemsSource,
-            [nameof(IComboBox.SelectedIndex)] = MapSelectedIndex,
-            [nameof(IComboBox.SelectedItem)] = MapSelectedItem,
-            [nameof(IComboBox.Placeholder)] = MapTitle,
-            [nameof(IComboBox.TextColor)] = MapTextColor,
-            [nameof(IComboBox.FontSize)] = MapFontSize,
-            [nameof(IComboBox.IsEnabled)] = MapIsEnabled,
-        };
-
-        new private static CommandMapper<IComboBox, ComboBoxHandler> ViewCommandMapper = new CommandMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewCommandMapper);
-
-        public ComboBoxHandler() : base(ViewMapper, ViewCommandMapper) { }
-
-        protected override AlwaysFireSpinner CreatePlatformView()
+        protected override AndroidComboBox CreatePlatformView()
         {
             var context = Context ?? throw new InvalidOperationException("Context cannot be null");
-            var spinner = new AlwaysFireSpinner(context, null, Android.Resource.Attribute.SpinnerStyle, (int)SpinnerMode.Dropdown);
+            var spinner = new AndroidComboBox(context, null, Android.Resource.Attribute.SpinnerStyle, (int)SpinnerMode.Dropdown);
             spinner.SetBackgroundResource(Android.Resource.Drawable.SpinnerBackground);
 
             spinner.Focusable = true;
@@ -44,7 +29,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             return spinner;
         }
 
-        protected override void ConnectHandler(AlwaysFireSpinner platformView)
+        protected override void ConnectHandler(AndroidComboBox platformView)
         {
             base.ConnectHandler(platformView);
 
@@ -264,7 +249,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
         }
 
-        protected override void DisconnectHandler(AlwaysFireSpinner platformView)
+        protected override void DisconnectHandler(AndroidComboBox platformView)
         {
             try
             {
