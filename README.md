@@ -1,3 +1,5 @@
+[![.NET CI](https://github.com/axdelafuen/maui-xale-toolkit/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/axdelafuen/maui-xale-toolkit/actions/workflows/dotnet.yml)
+
 # Maui.XaleToolkit
 
 Many native UI controls are still missing for * FREE * in .NET MAUI or the CommunityToolkit.
