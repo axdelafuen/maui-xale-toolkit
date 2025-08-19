@@ -103,24 +103,23 @@ jobs:
   #           ${{ github.workspace }}/packages/**/*.nupkg
 
   push:
+    needs: [pack]
+    if: startsWith(github.ref, 'refs/tags/')
+    name: Publish NuGet
+    runs-on: ubuntu-latest
+
     steps:
-      needs: [pack]
-      if: startsWith(github.ref, 'refs/tags/')
-      name: Publish NuGet
-      runs-on: ubuntu-latest
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@
 
-      steps:
-        - name: Install .NET SDK
-          uses: actions/setup-dotnet@
+      - name: Download artifact
+        uses: actions/download-artifact@
+        with:
+          name: signed-packages
+          path: ./packages
 
-        - name: Download artifact
-          uses: actions/download-artifact@
-          with:
-            name: signed-packages
-            path: ./packages
+      - name: Push NuGet to GitHub
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GIT_NUGET_API_KEY }} --source https://nuget.pkg.github.com/axdelafuen/index.json --skip-duplicate
 
-        - name: Push NuGet to GitHub
-          run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GIT_NUGET_API_KEY }} --source https://nuget.pkg.github.com/axdelafuen/index.json --skip-duplicate
-
-#        - name: Push NuGet to NugetOrg
-#          run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGETORG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+#     - name: Push NuGet to NugetOrg
+#       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGETORG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
