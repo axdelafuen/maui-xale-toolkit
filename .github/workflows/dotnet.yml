@@ -50,7 +50,7 @@ jobs:
           dotnet-version: 9.0.x
 
       - name: 'Pack Maui.XaleToolkit'
-        run: dotnet pack ./src/Maui.XaleToolkit/Maui.XaleToolkit.csproj -c Release -p:PackageVersion=${{ github.ref_name }} -p:Version=${{ github.ref_name }}
+        run: dotnet pack ./src/Maui.XaleToolkit/Maui.XaleToolkit.csproj -c Release -o ./packages -p:PackageVersion=${{ github.ref_name }} -p:Version=${{ github.ref_name }}
 
       - name: Upload unsigned artifact
         uses: actions/upload-artifact@v4
