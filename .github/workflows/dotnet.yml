@@ -8,7 +8,7 @@ on:
     branches: 
       - main
     tags:
-      - 'v*'
+      - '*'
     paths-ignore:
       - "**.md"
   pull_request:
@@ -17,7 +17,7 @@ on:
 jobs:
   build:
     if: (!startsWith(github.ref, 'refs/tags/'))
-    name: Build Maui.XaleToolkit
+    name: Build Maui.XaleToolkit & Test App
     runs-on: windows-latest
 
     steps:
@@ -32,12 +32,12 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore ./src/Maui.XaleToolkit.sln
       
-      - name: Build
+      - name: Build .NET solution
         run: dotnet build --no-restore ./src/Maui.XaleToolkit.sln
 
   pack:
     if: startsWith(github.ref, 'refs/tags/')
-    name: Pack Lib
+    name: Pack Maui.XaleToolkit 
     runs-on: windows-latest
 
     steps:
@@ -52,7 +52,7 @@ jobs:
         with:
           dotnet-version: 9.0.x
 
-      - name: 'Build Maui.XaleToolkit'
+      - name: 'Pack Maui.XaleToolkit'
         run: dotnet pack ./src/Maui.XaleToolkit/Maui.XaleToolkit.csproj -c Release -p:PackageVersion=${{ env.NugetPackageVersion }} -p:Version=${{ env.NugetPackageVersion }}
 
       - name: Upload unsigned artifact
@@ -102,24 +102,24 @@ jobs:
   #         path: |
   #           ${{ github.workspace }}/packages/**/*.nupkg
 
+  push-nuget:
+    if: startsWith(github.ref, 'refs/tags/') 
+    needs: [pack]
+    name: Publish NuGet
+    runs-on: ubuntu-latest
+
     steps:
-      if: startsWith(github.ref, 'refs/tags/') 
-      needs: [pack]
-      name: Publish NuGet
-      runs-on: ubuntu-latest
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
 
-      steps:
-        - name: Install .NET SDK
-          uses: actions/setup-dotnet@
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: signed-packages
+          path: ./packages
 
-        - name: Download artifact
-          uses: actions/download-artifact@
-          with:
-            name: signed-packages
-            path: ./packages
+      - name: Push NuGet to GitHub
+        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GIT_NUGET_API_KEY }} --source https://nuget.pkg.github.com/axdelafuen/index.json --skip-duplicate
 
-        - name: Push NuGet to GitHub
-          run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.GIT_NUGET_API_KEY }} --source https://nuget.pkg.github.com/axdelafuen/index.json --skip-duplicate
-
-#        - name: Push NuGet to NugetOrg
-#          run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGETORG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+#      - name: Push NuGet to NugetOrg
+#        run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.NUGETORG_NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
