@@ -11,11 +11,11 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         protected override MauiComboBox CreatePlatformView()
         {
-            var comboBox = new MauiComboBox();
-
-            // Set up basic styling
-            comboBox.HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch;
-            comboBox.VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
+            var comboBox = new MauiComboBox
+            {
+                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
+                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
+            };
 
             return comboBox;
         }
@@ -29,7 +29,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
                 platformView.SelectionChanged += OnSelectionChanged; ;
                 platformView.DropDownOpened += OnDropDownOpened;
 
-                // Initialize all properties
                 UpdateItemsSource();
                 UpdateSelectedIndex();
                 UpdateTitle();
@@ -41,13 +40,19 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         protected override void DisconnectHandler(MauiComboBox platformView)
         {
-            if (platformView != null)
+            try
             {
-                platformView.SelectionChanged -= OnSelectionChanged;
-                platformView.DropDownOpened -= OnDropDownOpened;
+                if (platformView != null)
+                {
+                    platformView.SelectionChanged -= OnSelectionChanged;
+                    platformView.DropDownOpened -= OnDropDownOpened;
+                }
             }
-
-            base.DisconnectHandler(platformView);
+            catch (Exception) { }
+            finally
+            {
+                base.DisconnectHandler(platformView);
+            }
         }
 
         private void OnSelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
@@ -74,7 +79,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        private void OnDropDownOpened(object sender, object e)
+        private void OnDropDownOpened(object? sender, object e)
         {
         }
 
@@ -130,7 +135,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         public void UpdateSelectedItem()
         {
-            // Windows ComboBox handles this through UpdateSelectedIndex
             UpdateSelectedIndex();
         }
 
@@ -141,18 +145,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
             try
             {
-                // Set placeholder text when no item is selected
-                PlatformView.PlaceholderText = VirtualView.Placeholder ?? string.Empty;
-
-                // If no selection and placeholder exists, show placeholder
-                if (VirtualView.SelectedIndex == -1 && !string.IsNullOrEmpty(VirtualView.Placeholder))
-                {
-                    PlatformView.Header = VirtualView.Placeholder;
-                }
-                else
-                {
-                    PlatformView.Header = null;
-                }
+                PlatformView.PlaceholderText = VirtualView.Placeholder;
             }
             catch (Exception) { }
         }
@@ -166,9 +159,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             {
                 var color = VirtualView.TextColor;
                 if (color != null)
-                {
                     PlatformView.Foreground = color.ToPlatform();
-                }
             }
             catch (Exception) { }
         }
@@ -181,9 +172,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             try
             {
                 if (VirtualView.FontSize > 0)
-                {
                     PlatformView.FontSize = VirtualView.FontSize;
-                }
             }
             catch (Exception) { }
         }
@@ -196,8 +185,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             try
             {
                 PlatformView.IsEnabled = VirtualView.IsEnabled;
-
-                // Adjust opacity for disabled state
                 PlatformView.Opacity = VirtualView.IsEnabled ? 1.0 : 0.5;
             }
             catch (Exception) { }

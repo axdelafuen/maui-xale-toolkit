@@ -1,14 +1,4 @@
-﻿#if IOS || MACCATALYST
-using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
-#elif ANDROID
-using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
-#elif WINDOWS
-using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
-#elif (NETSTANDARD || !PLATFORM) || (NET6_0_OR_GREATER && !IOS && !ANDROID)
-using PlatformView = System.Object;
-#endif
-
-using Maui.XaleToolkit.Interfaces;
+﻿using Maui.XaleToolkit.Interfaces;
 using Microsoft.Maui.Handlers;
 
 namespace Maui.XaleToolkit.Handlers.ComboBox

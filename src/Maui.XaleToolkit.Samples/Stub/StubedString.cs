@@ -1,4 +1,4 @@
-﻿namespace Maui.ComboBox.DebugApp.Stub
+﻿namespace Maui.XaleToolkit.Samples.Stub
 {
     public static class StubedString
     {

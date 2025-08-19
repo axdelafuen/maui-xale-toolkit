@@ -9,6 +9,7 @@ namespace Maui.XaleToolkit.Samples
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
+                // Add the XaleToolkit to the Maui application
                 .UseMauiXaleToolkit()
                 .ConfigureFonts(fonts =>
                 {

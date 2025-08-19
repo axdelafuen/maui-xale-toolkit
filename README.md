@@ -21,6 +21,8 @@ This repository aims to fill that gap by implementing some of them during my fre
 
 _Soon on NuGet.org_
 
+_A NuGet package is currently available on my GitHub account, but an access token is required to pull it remotely. Until the NuGet.org registry is set up, you will need to download it manually._
+
 ## Getting started
 
 In order to use the `Maui.XaleToolkit` you need to call the extension method in your `MauiProgram.cs` file as follows:
@@ -44,8 +46,8 @@ public static class MauiProgram
 }
 ```
 
-## Usage
+## XAML Usage
 
 ```xaml
-xmlns:xale="clr-namespace:Maui.XaleToolkit.Views.ComboBox;assembly=Maui.XaleToolkit"
+xmlns:xale="clr-namespace:Maui.XaleToolkit.Views;assembly=Maui.XaleToolkit"
 ```
