@@ -45,7 +45,7 @@ jobs:
         uses: actions/checkout@v5
 
       - name: Set NuGet version tag
-        run: echo "NugetPackageVersion=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+        run: echo "NugetPackageVersion=${{ github.ref_name }}" >> $GITHUB_ENV
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
