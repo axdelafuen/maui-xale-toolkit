@@ -110,10 +110,10 @@ jobs:
 
     steps:
       - name: Install .NET SDK
-        uses: actions/setup-dotnet@
+        uses: actions/setup-dotnet@v4
 
       - name: Download artifact
-        uses: actions/download-artifact@
+        uses: actions/download-artifact@v4
         with:
           name: signed-packages
           path: ./packages
