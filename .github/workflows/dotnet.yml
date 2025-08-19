@@ -102,6 +102,7 @@ jobs:
   #         path: |
   #           ${{ github.workspace }}/packages/**/*.nupkg
 
+  push:
     steps:
       if: startsWith(github.ref, 'refs/tags/')
       needs: [pack]
