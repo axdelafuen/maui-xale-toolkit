@@ -1,25 +1,22 @@
 ﻿using Microsoft.Maui.Platform;
-using Microsoft.UI.Xaml.Media;
 using WinComboBox = Microsoft.UI.Xaml.Controls.ComboBox;
 
 namespace Maui.XaleToolkit.Platform.ComboBox
 {
+    /// <summary>
+    /// Windows implementation of a ComboBox control.
+    /// </summary>
     public partial class MauiComboBox : WinComboBox
     {
+        /// <summary>
+        /// Default constructor for Windows <see cref="MauiComboBox"/> implementation.
+        /// </summary>
         public MauiComboBox() : base()
         {
             DefaultStyleKey = typeof(WinComboBox);
 
             HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch;
             VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center;
-
-            MinWidth = 120;
-            MinHeight = 32;
-
-            MaxDropDownHeight = 200;
-
-            FontFamily = new FontFamily("Segoe UI");
-            FontSize = 14;
 
             Background = Colors.White.ToPlatform();
             BorderBrush = Colors.Gray.ToPlatform();
@@ -38,9 +35,6 @@ namespace Maui.XaleToolkit.Platform.ComboBox
             if (SelectedIndex >= 0)
             {
                 var currentIndex = SelectedIndex;
-                var currentItem = SelectedItem;
-
-                // Temporarily change selection to force event
                 SelectedIndex = -1;
                 SelectedIndex = currentIndex;
             }
@@ -56,12 +50,6 @@ namespace Maui.XaleToolkit.Platform.ComboBox
                 return;
 
             PlaceholderText = placeholder;
-
-            // If no selection, show placeholder as header
-            if (SelectedIndex == -1)
-            {
-                Header = placeholder;
-            }
         }
 
         /// <summary>
@@ -73,15 +61,10 @@ namespace Maui.XaleToolkit.Platform.ComboBox
             IsEnabled = isEnabled;
             Opacity = isEnabled ? 1.0 : 0.5;
 
-            // Update visual state
             if (isEnabled)
-            {
                 Background = Colors.White.ToPlatform();
-            }
             else
-            {
                 Background = Colors.LightGray.ToPlatform();
-            }
         }
 
         /// <summary>

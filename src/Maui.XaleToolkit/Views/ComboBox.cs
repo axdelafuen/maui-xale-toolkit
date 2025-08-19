@@ -21,38 +21,59 @@ namespace Maui.XaleToolkit.Views.ComboBox
 
         #region Properties
 
+        /// <summary>
+        /// Gets or sets the collection of items displayed.
+        /// </summary>
         public IList ItemsSource
         {
             get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the currently selected item.
+        /// </summary>
         public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the index of the currently selected item.
+        /// </summary>
         public int SelectedIndex { get; set; } = -1;
 
+        /// <summary>
+        /// Gets or sets the placeholder text displayed when no item is selected.
+        /// </summary>
         public string Placeholder
         {
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the color of the text displayed.
+        /// </summary>
         public Color TextColor
         {
             get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets the font size of the text displayed.
+        /// </summary>
         public double FontSize
         {
             get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the <see cref="ComboBox"/> is enabled.
+        /// </summary>
         public new bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
@@ -61,8 +82,14 @@ namespace Maui.XaleToolkit.Views.ComboBox
 
         #endregion
 
+        /// <summary>
+        /// Occurs when the selection changes.
+        /// </summary>
         public event EventHandler<ComboBoxSelectionChangedEventArgs>? SelectionChanged;
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ComboBox"/>.
+        /// </summary>
         public ComboBox() { }
 
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)

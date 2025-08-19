@@ -1,29 +1,30 @@
 using Maui.XaleToolkit.Samples.Models;
 using Maui.XaleToolkit.Samples.Stub;
 
-namespace Maui.XaleToolkit.Samples.Samples.ComboBox;
-
-public partial class ComboBoxSamplePage : ContentPage
+namespace Maui.XaleToolkit.Samples.Samples.ComboBox
 {
-    private TestObject? _selectedItem;
-    public TestObject? SelectedItem
+    public partial class ComboBoxSamplePage : ContentPage
     {
-        get => _selectedItem;
-        set
+        private TestObject? _selectedItem;
+        public TestObject? SelectedItem
         {
-            if (_selectedItem != value)
+            get => _selectedItem;
+            set
             {
-                _selectedItem = value;
-                OnPropertyChanged();
+                if (_selectedItem != value)
+                {
+                    _selectedItem = value;
+                    OnPropertyChanged();
+                }
             }
         }
+
+        public IEnumerable<TestObject> ItemsSource => StubedModel.GetItems();
+
+        public ComboBoxSamplePage()
+        {
+            InitializeComponent();
+            BindingContext = this;
+        }
     }
-
-    public IEnumerable<TestObject> ItemsSource => StubedModel.GetItems();
-
-    public ComboBoxSamplePage()
-	{
-		InitializeComponent();
-		BindingContext = this;
-	}
 }

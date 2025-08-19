@@ -2,10 +2,13 @@
 
 namespace Maui.XaleToolkit.Interfaces
 {
+    /// <summary>
+    /// Interface for a <see cref="IComboBox"/> control.
+    /// </summary>
     public interface IComboBox : IView
     {
         /// <summary>
-        /// Collection of items to display in the spinner
+        /// Collection of items to display
         /// </summary>
         IList ItemsSource { get; set; }
 
@@ -25,17 +28,17 @@ namespace Maui.XaleToolkit.Interfaces
         string Placeholder { get; set; }
 
         /// <summary>
-        /// Text color for the spinner
+        /// Text color of the control
         /// </summary>
         Color TextColor { get; set; }
 
         /// <summary>
-        /// Font size for the spinner text
+        /// Font size of the control
         /// </summary>
         double FontSize { get; set; }
 
         /// <summary>
-        /// Whether the spinner is enabled
+        /// Whether the control is enabled
         /// </summary>
         new bool IsEnabled { get; set; }
 
@@ -45,10 +48,27 @@ namespace Maui.XaleToolkit.Interfaces
         event EventHandler<ComboBoxSelectionChangedEventArgs> SelectionChanged;
     }
 
+    /// <summary>
+    /// Event arguments for the SelectionChanged event of a <see cref="IComboBox"/> control.
+    /// </summary>
+    /// <param name="selectedItem">The selected item</param>
+    /// <param name="selectedIndex">The index of the selected item</param>
+    /// <param name="previousSelection">The previous selected item</param>
     public class ComboBoxSelectionChangedEventArgs(object? selectedItem, int selectedIndex, object previousSelection) : EventArgs
     {
+        /// <summary>
+        /// Gets the currently selected item.
+        /// </summary>
         public object? SelectedItem { get; } = selectedItem;
+
+        /// <summary>
+        /// Gets the index of the currently selected item.
+        /// </summary>
         public int SelectedIndex { get; } = selectedIndex;
+
+        /// <summary>
+        /// Gets the previously selected item.
+        /// </summary>
         public object PreviousSelection { get; } = previousSelection;
     }
 }
