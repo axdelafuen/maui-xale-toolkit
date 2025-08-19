@@ -104,8 +104,8 @@ jobs:
 
   push:
     steps:
-      if: startsWith(github.ref, 'refs/tags/')
       needs: [pack]
+      if: startsWith(github.ref, 'refs/tags/')
       name: Publish NuGet
       runs-on: ubuntu-latest
 
