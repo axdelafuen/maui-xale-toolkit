@@ -6,9 +6,9 @@ This repository aims to fill that gap by implementing some of them during my fre
 
 ## Implemented controls
 
-| Status | Control | Platforms |
-| - | - | - |
-| 🟢 | ComboBox / SpinnerDropdown | **Android only** |
+| Status | Control | Platforms | Comment |
+| - | - | - | - |
+| 🟢 | ComboBox | Android & Windows | _I dont have Mac/Apple device to develop for Maccalyste & iOS platforms._ |
 
 **Legend:**  
 🟢 Fully functional  
