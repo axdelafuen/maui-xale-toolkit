@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:xale="clr-namespace:Maui.XaleToolkit.Views.ComboBox;assembly=Maui.XaleToolkit"
+             xmlns:xale="clr-namespace:Maui.XaleToolkit.Views;assembly=Maui.XaleToolkit"
              xmlns:local="clr-namespace:Maui.XaleToolkit.Samples.Samples.ComboBox"
              x:Class="Maui.XaleToolkit.Samples.Samples.ComboBox.ComboBoxSamplePage"
              x:DataType="local:ComboBoxSamplePage"

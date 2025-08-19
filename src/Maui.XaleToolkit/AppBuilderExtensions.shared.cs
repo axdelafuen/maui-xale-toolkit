@@ -1,5 +1,5 @@
 ﻿using Maui.XaleToolkit.Handlers.ComboBox;
-using Maui.XaleToolkit.Views.ComboBox;
+using Maui.XaleToolkit.Views;
 using System.Runtime.Versioning;
 
 namespace Maui.XaleToolkit

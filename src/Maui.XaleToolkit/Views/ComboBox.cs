@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Specialized;
 
-namespace Maui.XaleToolkit.Views.ComboBox
+namespace Maui.XaleToolkit.Views
 {
     public partial class ComboBox : View, IComboBox
     {
