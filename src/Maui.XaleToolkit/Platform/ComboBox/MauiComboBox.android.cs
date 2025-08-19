@@ -1,17 +1,16 @@
-﻿#if ANDROID
-using Android.Content;
+﻿using Android.Content;
 using Android.Util;
 using AndroidX.AppCompat.Widget;
 
-namespace Maui.XaleToolkit.Extensions.ComboBox
+namespace Maui.XaleToolkit.Platform.ComboBox
 {
-    public class AlwaysFireSpinner : AppCompatSpinner
+    public class MauiComboBox : AppCompatSpinner
     {
-        public AlwaysFireSpinner(Context context) : base(context) { }
-        public AlwaysFireSpinner(Context context, IAttributeSet attrs) : base(context, attrs) { }
-        public AlwaysFireSpinner(Context context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr) { }
+        public MauiComboBox(Context context) : base(context) { }
+        public MauiComboBox(Context context, IAttributeSet attrs) : base(context, attrs) { }
+        public MauiComboBox(Context context, IAttributeSet? attrs, int defStyleAttr) : base(context, attrs, defStyleAttr) { }
 
-        public AlwaysFireSpinner(Context context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes) { }
+        public MauiComboBox(Context context, IAttributeSet? attrs, int defStyleAttr, int defStyleRes) : base(context, attrs, defStyleAttr, defStyleRes) { }
 
         public override void SetSelection(int position)
         {
@@ -34,4 +33,3 @@ namespace Maui.XaleToolkit.Extensions.ComboBox
         }
     }
 }
-#endif
