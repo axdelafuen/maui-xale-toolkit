@@ -16,6 +16,30 @@
 		<!--<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>-->
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<PackageId>Maui.XaleToolkit</PackageId>
+		<Summary>Some natives features of Android, Windows and iOS in .NET MAUI.</Summary>
+		<Authors>axdelafuen</Authors>
+		<Owners>axdelafuen</Owners>
+		<NeutralLanguage>en</NeutralLanguage>
+		<Product>Maui.XaleToolkit ($(NetVersion))</Product>
+		<Copyright>© Axel DE LA FUENTE. All rights reserved.</Copyright>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/axdelafuen/maui-xale-toolkit</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/axdelafuen/maui-xale-toolkit</RepositoryUrl>
+		<PackageReleaseNotes>See https://github.com/axdelafuen/maui-xale-toolkit/releases</PackageReleaseNotes>
+		<DefineConstants>$(DefineConstants);</DefineConstants>
+		<UseFullSemVerForNuGet>false</UseFullSemVerForNuGet>
+		<Title>Maui.XaleToolkit</Title>
+		<Description>Some natives features of Android, Windows and iOS in .NET MAUI.</Description>
+		<Product>$(AssemblyName) ($(TargetFramework))</Product>
+		<Version>1.0.0</Version>
+		<PackageVersion>$(Version)$(VersionSuffix)</PackageVersion>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<PackageTags>dotnet,maui,toolkit</PackageTags>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
 	</ItemGroup>
