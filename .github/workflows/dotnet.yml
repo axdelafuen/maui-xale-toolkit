@@ -44,16 +44,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Set NuGet version tag
-        run: echo "NugetPackageVersion=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 9.0.x
 
       - name: 'Pack Maui.XaleToolkit'
-        run: dotnet pack ./src/Maui.XaleToolkit/Maui.XaleToolkit.csproj -c Release -p:PackageVersion=${{ env.NugetPackageVersion }} -p:Version=${{ env.NugetPackageVersion }}
+        run: dotnet pack ./src/Maui.XaleToolkit/Maui.XaleToolkit.csproj -c Release -p:PackageVersion=${{ github.ref_name }} -p:Version=${{ github.ref_name }}
 
       - name: Upload unsigned artifact
         uses: actions/upload-artifact@v4
