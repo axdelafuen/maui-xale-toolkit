@@ -14,3 +14,36 @@ This repository aims to fill that gap by implementing some of them during my fre
 🟢 Fully functional  
 🟠 Some issues, but still usable  
 🔴 Critical issues or not yet implemented
+
+## Installation
+
+_Soon on NuGet.org_
+
+## Getting started
+
+In order to use the `Maui.XaleToolkit` you need to call the extension method in your `MauiProgram.cs` file as follows:
+
+```cs
+using CommunityToolkit.Maui;
+
+public static class MauiProgram
+{
+	public static MauiApp CreateMauiApp()
+	{
+		var builder = MauiApp.CreateBuilder();
+		builder
+			.UseMauiApp<App>()
+			.UseMauiXaleToolkit(); // Initialize the Maui.XaleToolkit by adding this line of code
+			
+		// Continue initializing your .NET MAUI App here
+
+		return builder.Build();
+	}
+}
+```
+
+## Usage
+
+```xaml
+xmlns:xale="clr-namespace:Maui.XaleToolkit.Views.ComboBox;assembly=Maui.XaleToolkit"
+```
