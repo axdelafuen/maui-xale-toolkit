@@ -49,5 +49,5 @@ public static class MauiProgram
 ## XAML Usage
 
 ```xaml
-xmlns:xale="clr-namespace:Maui.XaleToolkit.Views;assembly=Maui.XaleToolkit"
+xmlns:xale="http://schemas.axdelafuen.com/2025/maui/xaletoolkit"
 ```
