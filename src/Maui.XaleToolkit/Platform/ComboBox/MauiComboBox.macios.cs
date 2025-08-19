@@ -1,16 +1,15 @@
-﻿#if IOS || MACCATALYST
-using UIKit;
+﻿using UIKit;
 using Foundation;
 
-namespace Maui.XaleToolkit.Extensions.ComboBox
+namespace Maui.XaleToolkit.Platform.ComboBox
 {
-    public class MaciosComboBox : UIButton
+    public class MauiComboBox : UIButton
     {
         private UIPickerView? _pickerView;
         private UIToolbar? _toolbar;
         private NSArray? _dataSource;
         
-        public MaciosComboBox()
+        public MauiComboBox()
         {
             SetupPicker();
             SetupAppearance();
@@ -20,7 +19,6 @@ namespace Maui.XaleToolkit.Extensions.ComboBox
         {
             _pickerView = new UIPickerView();
             _toolbar = new UIToolbar();
-            // Setup picker and toolbar
         }
         
         private void SetupAppearance()
@@ -29,8 +27,5 @@ namespace Maui.XaleToolkit.Extensions.ComboBox
             Layer.BorderColor = UIColor.Gray.CGColor;
             Layer.CornerRadius = 5;
         }
-        
-        // Implement picker functionality
     }
 }
-#endif

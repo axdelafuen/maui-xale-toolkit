@@ -1,27 +1,26 @@
-﻿#if ANDROID
-using Android.Content;
+﻿using Android.Content;
 using Android.Graphics;
 using Android.Views;
 using Android.Widget;
 using Microsoft.Maui.Handlers;
 using Maui.XaleToolkit.Interfaces;
-using Maui.XaleToolkit.Extensions.ComboBox;
+using Maui.XaleToolkit.Platform.ComboBox;
 using System.Collections;
 using Color = Android.Graphics.Color;
 using View = Android.Views.View;
 
 namespace Maui.XaleToolkit.Handlers.ComboBox
 {
-    public partial class ComboBoxHandler : ViewHandler<IComboBox, AndroidComboBox>
+    public partial class ComboBoxHandler : ViewHandler<IComboBox, MauiComboBox>
     {
         private SpinnerAdapter? _adapter;
         private bool _isUpdatingSelection;
         private bool _isInitialized = false;
 
-        protected override AndroidComboBox CreatePlatformView()
+        protected override MauiComboBox CreatePlatformView()
         {
             var context = Context ?? throw new InvalidOperationException("Context cannot be null");
-            var spinner = new AndroidComboBox(context, null, Android.Resource.Attribute.SpinnerStyle, (int)SpinnerMode.Dropdown);
+            var spinner = new MauiComboBox(context, null, Android.Resource.Attribute.SpinnerStyle, (int)SpinnerMode.Dropdown);
             spinner.SetBackgroundResource(Android.Resource.Drawable.SpinnerBackground);
 
             spinner.Focusable = true;
@@ -29,7 +28,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             return spinner;
         }
 
-        protected override void ConnectHandler(AndroidComboBox platformView)
+        protected override void ConnectHandler(MauiComboBox platformView)
         {
             base.ConnectHandler(platformView);
 
@@ -99,7 +98,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
         }
 
         #region Update Methods
-
         private void UpdateItemsSource()
         {
             if (_adapter?.IsDisposed != false || VirtualView == null) return;
@@ -210,7 +208,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
         }
 
-        protected override void DisconnectHandler(AndroidComboBox platformView)
+        protected override void DisconnectHandler(MauiComboBox platformView)
         {
             try
             {
@@ -373,4 +371,3 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
         }
     }
 }
-#endif

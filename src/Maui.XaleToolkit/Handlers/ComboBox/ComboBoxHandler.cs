@@ -1,9 +1,9 @@
 ﻿#if IOS || MACCATALYST
-using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.MaciosComboBox;
+using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
 #elif ANDROID
-using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.AndroidComboBox;
+using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
 #elif WINDOWS
-using PlatformView = Maui.XaleToolkit.Extensions.ComboBox.WindowsComboBox;
+using PlatformView = Maui.XaleToolkit.Platform.ComboBox;
 #elif (NETSTANDARD || !PLATFORM) || (NET6_0_OR_GREATER && !IOS && !ANDROID)
 using PlatformView = System.Object;
 #endif
@@ -15,7 +15,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 {
     public partial class ComboBoxHandler
     {
-        new private static IPropertyMapper<IComboBox, ComboBoxHandler> ViewMapper = new PropertyMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewMapper)
+        new private readonly static IPropertyMapper<IComboBox, ComboBoxHandler> ViewMapper = new PropertyMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewMapper)
         {
             [nameof(IComboBox.ItemsSource)] = MapItemsSource,
             [nameof(IComboBox.SelectedIndex)] = MapSelectedIndex,
@@ -26,44 +26,16 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             [nameof(IComboBox.IsEnabled)] = MapIsEnabled,
         };
 
-        new private static CommandMapper<IComboBox, ComboBoxHandler> ViewCommandMapper = new CommandMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewCommandMapper);
+        new private readonly static CommandMapper<IComboBox, ComboBoxHandler> ViewCommandMapper = new CommandMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewCommandMapper);
 
         public ComboBoxHandler() : base(ViewMapper, ViewCommandMapper) { }
 
-        public static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.PlatformView?.UpdateItemsSource();
-        }
-
-        public static void MapSelectedIndex(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateSelectedIndex();
-        }
-
-        public static void MapSelectedItem(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateSelectedIndex();
-        }
-
-        public static void MapTitle(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateTitle();
-        }
-
-        public static void MapTextColor(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateTextColor();
-        }
-
-        public static void MapFontSize(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateFontSize();
-        }
-
-        public static void MapIsEnabled(ComboBoxHandler handler, IComboBox spinner)
-        {
-            handler.UpdateIsEnabled();
-        }
-
+        public static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateItemsSource();
+        public static void MapSelectedIndex(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
+        public static void MapSelectedItem(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
+        public static void MapTitle(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTitle();
+        public static void MapTextColor(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTextColor();
+        public static void MapFontSize(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateFontSize();
+        public static void MapIsEnabled(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateIsEnabled();
     }
 }
