@@ -1,24 +1,30 @@
 ﻿using Maui.XaleToolkit.Interfaces;
-using Maui.XaleToolkit.Platform.TreeView;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using Microsoft.UI.Xaml.Controls;
 using System.Collections;
+using WinTreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace Maui.XaleToolkit.Handlers.TreeView
 {
-    public partial class TreeViewHandler : ViewHandler<ITreeView, MauiTreeView>
+    public partial class TreeViewHandler : ViewHandler<ITreeView, WinTreeView>
     {
-        protected override MauiTreeView CreatePlatformView()
+        protected override WinTreeView CreatePlatformView()
         {
-            var treeView =  new MauiTreeView();
+            var treeView = new WinTreeView
+            {
+                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
+                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center,
+                BorderThickness = new Microsoft.UI.Xaml.Thickness(1),
+                Padding = new Microsoft.UI.Xaml.Thickness(8, 4, 8, 4),
+                CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
+            };
 
             treeView.ItemInvoked += OnItemInvoked;
 
             return treeView;
         }
 
-        protected override void ConnectHandler(MauiTreeView platformView)
+        protected override void ConnectHandler(WinTreeView platformView)
         {
             base.ConnectHandler(platformView);
 
@@ -32,7 +38,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             }
         }
 
-        protected override void DisconnectHandler(MauiTreeView platformView)
+        protected override void DisconnectHandler(WinTreeView platformView)
         {
             base.DisconnectHandler(platformView);
 
@@ -41,8 +47,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 platformView.ItemInvoked -= OnItemInvoked;
             }
         }
-
-        private void OnItemInvoked(Microsoft.UI.Xaml.Controls.TreeView sender, TreeViewItemInvokedEventArgs args)
+        private void OnItemInvoked(WinTreeView sender, TreeViewItemInvokedEventArgs args)
         {
             if (args.InvokedItem is TreeViewNode node)
             {
@@ -55,9 +60,12 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             var node = new TreeViewNode
             {
                 Content = item,
-                IsExpanded = true
+                IsExpanded = false,
             };
 
+            /*
+             * THIS SHOULD BE USED FOR DATATEMPLATE :/
+             * 
             if (VirtualView?.ItemTemplate != null && MauiContext != null)
             {
                 var mauiContent = (View)VirtualView.ItemTemplate.CreateContent();
@@ -69,6 +77,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             }
             else
             {
+            
                 node.Content = new TextBlock
                 {
                     Text = item?.ToString(),
@@ -76,6 +85,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                     FontSize = VirtualView?.FontSize ?? 14.0
                 };
             }
+            */
 
             var childrenProp = item?.GetType().GetProperty("Children");
             if (childrenProp?.GetValue(item) is IList children)

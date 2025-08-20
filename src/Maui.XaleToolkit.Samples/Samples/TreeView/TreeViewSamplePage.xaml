@@ -9,7 +9,6 @@
              Title="TreeViewSamplePage">
     <VerticalStackLayout>
         <xale:TreeView
-            BackgroundColor="Yellow"
             SelectedItem="{Binding SelectedItem}"
             ItemsSource="{Binding ItemsSource}"
             FontSize="14"

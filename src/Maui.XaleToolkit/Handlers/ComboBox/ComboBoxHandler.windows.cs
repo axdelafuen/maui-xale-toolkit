@@ -1,20 +1,27 @@
 ﻿using Microsoft.Maui.Handlers;
 using Maui.XaleToolkit.Interfaces;
-using Maui.XaleToolkit.Platform.ComboBox;
 using Microsoft.Maui.Platform;
+using WinComboBox = Microsoft.UI.Xaml.Controls.ComboBox;
 
 namespace Maui.XaleToolkit.Handlers.ComboBox
 {
-    public partial class ComboBoxHandler : ViewHandler<IComboBox, MauiComboBox>
+    public partial class ComboBoxHandler : ViewHandler<IComboBox, WinComboBox>
     {
         private bool _isUpdatingSelection = false;
 
-        protected override MauiComboBox CreatePlatformView()
+        protected override WinComboBox CreatePlatformView()
         {
-            return new MauiComboBox();
+            return new WinComboBox
+            {
+                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
+                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center,
+                BorderThickness = new Microsoft.UI.Xaml.Thickness(1),
+                Padding = new Microsoft.UI.Xaml.Thickness(8, 4, 8, 4),
+                CornerRadius = new Microsoft.UI.Xaml.CornerRadius(4),
+            };
         }
 
-        protected override void ConnectHandler(MauiComboBox platformView)
+        protected override void ConnectHandler(WinComboBox platformView)
         {
             base.ConnectHandler(platformView);
 
@@ -31,7 +38,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
         }
 
-        protected override void DisconnectHandler(MauiComboBox platformView)
+        protected override void DisconnectHandler(WinComboBox platformView)
         {
             try
             {
