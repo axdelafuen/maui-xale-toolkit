@@ -4,6 +4,9 @@ using System.Collections.Specialized;
 
 namespace Maui.XaleToolkit.Views
 {
+    /// <summary>
+    /// Represents a <see cref="ComboBox"/> control that allows users to select an item from a dropdown list.
+    /// </summary>
     public partial class ComboBox : View, IComboBox
     {
         private object? _previousSelection;
@@ -94,47 +97,47 @@ namespace Maui.XaleToolkit.Views
 
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var spinner = (ComboBox)bindable;
+            var comboBox = (ComboBox)bindable;
 
             if (oldValue is INotifyCollectionChanged oldCollection)
             {
-                oldCollection.CollectionChanged -= spinner.OnCollectionChanged;
+                oldCollection.CollectionChanged -= comboBox.OnCollectionChanged;
             }
 
             if (newValue is INotifyCollectionChanged newCollection)
             {
-                newCollection.CollectionChanged += spinner.OnCollectionChanged;
+                newCollection.CollectionChanged += comboBox.OnCollectionChanged;
             }
         }
 
         private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            var spinner = (ComboBox)bindable;
-            spinner._previousSelection = oldValue;
+            var comboBox = (ComboBox)bindable;
+            comboBox._previousSelection = oldValue;
 
-            if (spinner.ItemsSource != null && newValue != null)
+            if (comboBox.ItemsSource != null && newValue != null)
             {
                 var index = -1;
-                for (int i = 0; i < spinner.ItemsSource.Count; i++)
+                for (int i = 0; i < comboBox.ItemsSource.Count; i++)
                 {
-                    if (Equals(spinner.ItemsSource[i], newValue))
+                    if (Equals(comboBox.ItemsSource[i], newValue))
                     {
                         index = i;
                         break;
                     }
                 }
 
-                if (spinner.SelectedIndex != index)
+                if (comboBox.SelectedIndex != index)
                 {
-                    spinner.SelectedIndex = index;
+                    comboBox.SelectedIndex = index;
                 }
             }
             else if (newValue == null)
             {
-                spinner.SelectedIndex = -1;
+                comboBox.SelectedIndex = -1;
             }
 
-            spinner.OnSelectionChanged();
+            comboBox.OnSelectionChanged();
         }
 
         private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
