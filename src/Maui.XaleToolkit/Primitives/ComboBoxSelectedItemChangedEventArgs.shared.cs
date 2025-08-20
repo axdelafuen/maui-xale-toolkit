@@ -3,12 +3,12 @@
 namespace Maui.XaleToolkit.Primitives
 {
     /// <summary>
-    /// Event arguments for the SelectionChanged event of a <see cref="IComboBox"/> control.
+    /// Event arguments for the SelectedItemChanged event of a <see cref="IComboBox"/> control.
     /// </summary>
     /// <param name="selectedItem">The selected item</param>
     /// <param name="selectedIndex">The index of the selected item</param>
     /// <param name="previousSelection">The previous selected item</param>
-    public class ComboBoxSelectionChangedEventArgs(object? selectedItem, int selectedIndex, object previousSelection) : EventArgs
+    public class ComboBoxSelectedItemChangedEventArgs(object? selectedItem, int selectedIndex, object previousSelection) : EventArgs
     {
         /// <summary>
         /// Gets the currently selected item.

@@ -11,5 +11,12 @@
             Placeholder="Select item..."
             SelectedItem="{Binding SelectedItem}"
             ItemsSource="{Binding ItemsSource}"/>
+        
+        <HorizontalStackLayout>
+            <Label Text="Selected:" Margin="3"/>
+            <Label Text="{Binding SelectedItem, TargetNullValue='null'}" Margin="3"/>
+        </HorizontalStackLayout>
+
+        <Button Text="Unselect" Clicked="Button_Clicked"/>
     </VerticalStackLayout>
 </ContentPage>

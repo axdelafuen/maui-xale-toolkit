@@ -20,12 +20,12 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         public ComboBoxHandler() : base(ViewMapper, ViewCommandMapper) { }
 
-        public static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateItemsSource();
-        public static void MapSelectedIndex(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
-        public static void MapSelectedItem(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
-        public static void MapTitle(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTitle();
-        public static void MapTextColor(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTextColor();
-        public static void MapFontSize(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateFontSize();
-        public static void MapIsEnabled(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateIsEnabled();
+        private static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateItemsSource();
+        private static void MapSelectedIndex(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
+        private static void MapSelectedItem(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateSelectedIndex();
+        private static void MapTitle(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTitle();
+        private static void MapTextColor(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateTextColor();
+        private static void MapFontSize(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateFontSize();
+        private static void MapIsEnabled(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateIsEnabled();
     }
 }

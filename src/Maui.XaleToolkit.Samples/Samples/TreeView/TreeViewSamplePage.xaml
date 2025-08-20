@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xale="http://schemas.axdelafuen.com/2025/maui/xaletoolkit"
+             xmlns:models="clr-namespace:Maui.XaleToolkit.Samples.Models"
+             xmlns:local="clr-namespace:Maui.XaleToolkit.Samples.Samples.TreeView"
+             x:Class="Maui.XaleToolkit.Samples.Samples.TreeView.TreeViewSamplePage"
+             x:DataType="local:TreeViewSamplePage"
+             Title="TreeViewSamplePage">
+    <VerticalStackLayout>
+        <xale:TreeView
+            BackgroundColor="Yellow"
+            SelectedItem="{Binding SelectedItem}"
+            ItemsSource="{Binding ItemsSource}"
+            FontSize="14"
+            TextColor="Black">
+            <xale:TreeView.ItemTemplate>
+                <DataTemplate>
+                    <Label x:DataType="models:TestTreeNode" Text="{Binding Value}"/>
+                </DataTemplate>
+            </xale:TreeView.ItemTemplate>
+        </xale:TreeView>
+    </VerticalStackLayout>
+</ContentPage>

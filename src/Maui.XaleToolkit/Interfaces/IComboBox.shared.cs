@@ -46,6 +46,6 @@ namespace Maui.XaleToolkit.Interfaces
         /// <summary>
         /// Event fired when selection changes
         /// </summary>
-        event EventHandler<ComboBoxSelectionChangedEventArgs> SelectionChanged;
+        event EventHandler<ComboBoxSelectedItemChangedEventArgs> SelectedItemChanged;
     }
 }

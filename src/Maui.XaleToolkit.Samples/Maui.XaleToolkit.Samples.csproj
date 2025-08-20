@@ -72,6 +72,9 @@
 	  <MauiXaml Update="Samples\ComboBox\ComboBoxSamplePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Samples\TreeView\TreeViewSamplePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

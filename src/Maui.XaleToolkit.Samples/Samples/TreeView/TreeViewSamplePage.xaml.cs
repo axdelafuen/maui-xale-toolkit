@@ -1,12 +1,12 @@
 using Maui.XaleToolkit.Samples.Models;
 using Maui.XaleToolkit.Samples.Stub;
 
-namespace Maui.XaleToolkit.Samples.Samples.ComboBox
+namespace Maui.XaleToolkit.Samples.Samples.TreeView
 {
-    public partial class ComboBoxSamplePage : ContentPage
+    public partial class TreeViewSamplePage : ContentPage
     {
-        private TestObject? _selectedItem;
-        public TestObject? SelectedItem
+        private TestTreeNode? _selectedItem;
+        public TestTreeNode? SelectedItem
         {
             get => _selectedItem;
             set
@@ -19,17 +19,12 @@ namespace Maui.XaleToolkit.Samples.Samples.ComboBox
             }
         }
 
-        public IEnumerable<TestObject> ItemsSource => StubedModel.GetItems();
+        public IList<TestTreeNode> ItemsSource => StubedTreeNode.GetNodes();
 
-        public ComboBoxSamplePage()
+        public TreeViewSamplePage()
         {
             InitializeComponent();
             BindingContext = this;
-        }
-
-        private void Button_Clicked(object sender, EventArgs e)
-        {
-            SelectedItem = null;
         }
     }
 }

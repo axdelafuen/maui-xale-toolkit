@@ -1,4 +1,5 @@
 ﻿using Maui.XaleToolkit.Interfaces;
+using Maui.XaleToolkit.Primitives;
 using System.Collections;
 using System.Collections.Specialized;
 
@@ -88,12 +89,7 @@ namespace Maui.XaleToolkit.Views
         /// <summary>
         /// Occurs when the selection changes.
         /// </summary>
-        public event EventHandler<ComboBoxSelectionChangedEventArgs>? SelectionChanged;
-
-        /// <summary>
-        /// Initializes a new instance of <see cref="ComboBox"/>.
-        /// </summary>
-        public ComboBox() { }
+        public event EventHandler<ComboBoxSelectedItemChangedEventArgs>? SelectedItemChanged;
 
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
         {
@@ -152,7 +148,7 @@ namespace Maui.XaleToolkit.Views
         protected virtual void OnSelectionChanged()
         {
             if (_previousSelection is object previous)
-                SelectionChanged?.Invoke(this, new ComboBoxSelectionChangedEventArgs(SelectedItem, SelectedIndex, previous));
+                SelectedItemChanged?.Invoke(this, new ComboBoxSelectedItemChangedEventArgs(SelectedItem, SelectedIndex, previous));
         }
     }
 }

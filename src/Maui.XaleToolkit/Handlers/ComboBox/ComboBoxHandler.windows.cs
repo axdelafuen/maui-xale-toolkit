@@ -11,13 +11,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         protected override MauiComboBox CreatePlatformView()
         {
-            var comboBox = new MauiComboBox
-            {
-                HorizontalAlignment = Microsoft.UI.Xaml.HorizontalAlignment.Stretch,
-                VerticalAlignment = Microsoft.UI.Xaml.VerticalAlignment.Center
-            };
-
-            return comboBox;
+            return new MauiComboBox();
         }
 
         protected override void ConnectHandler(MauiComboBox platformView)
@@ -27,7 +21,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             if (VirtualView != null)
             {
                 platformView.SelectionChanged += OnSelectionChanged; ;
-                platformView.DropDownOpened += OnDropDownOpened;
 
                 UpdateItemsSource();
                 UpdateSelectedIndex();
@@ -45,7 +38,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
                 if (platformView != null)
                 {
                     platformView.SelectionChanged -= OnSelectionChanged;
-                    platformView.DropDownOpened -= OnDropDownOpened;
                 }
             }
             catch (Exception) { }
@@ -79,13 +71,8 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        private void OnDropDownOpened(object? sender, object e)
-        {
-        }
-
-        #region IComboBoxHandler Implementation
-
-        public void UpdateItemsSource()
+        #region Update Methods
+        private void UpdateItemsSource()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -107,7 +94,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        public void UpdateSelectedIndex()
+        private void UpdateSelectedIndex()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -133,12 +120,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
         }
 
-        public void UpdateSelectedItem()
-        {
-            UpdateSelectedIndex();
-        }
-
-        public void UpdateTitle()
+        private void UpdateTitle()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -150,7 +132,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        public void UpdateTextColor()
+        private void UpdateTextColor()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -164,7 +146,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        public void UpdateFontSize()
+        private void UpdateFontSize()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -177,7 +159,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        public void UpdateIsEnabled()
+        private void UpdateIsEnabled()
         {
             if (PlatformView == null || VirtualView == null)
                 return;
@@ -189,7 +171,6 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
             catch (Exception) { }
         }
-
         #endregion
     }
 }
