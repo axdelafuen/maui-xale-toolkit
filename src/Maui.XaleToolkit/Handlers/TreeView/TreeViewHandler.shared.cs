@@ -8,7 +8,6 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         new private readonly static IPropertyMapper<ITreeView, TreeViewHandler> ViewMapper = new PropertyMapper<ITreeView, TreeViewHandler>(ViewHandler.ViewMapper)
         {
             [nameof(ITreeView.ItemsSource)] = MapItemsSource,
-            [nameof(ITreeView.ItemTemplate)] = MapItemTemplate,
             [nameof(ITreeView.SelectedItem)] = MapSelectedItem,
             [nameof(ITreeView.TextColor)] = MapTextColor,
             [nameof(ITreeView.FontSize)] = MapFontSize,
@@ -19,7 +18,6 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         public TreeViewHandler() : base(ViewMapper, ViewCommandMapper) { }
 
         private static void MapItemsSource(TreeViewHandler handler, ITreeView spinner) => handler.UpdateItemsSource();
-        private static void MapItemTemplate(TreeViewHandler handler, ITreeView spinner) => handler.UpdateItemTemplate();
         private static void MapSelectedItem(TreeViewHandler handler, ITreeView spinner) => handler.UpdateSelectedItem();
         private static void MapTextColor(TreeViewHandler handler, ITreeView spinner) => handler.UpdateTextColor();
         private static void MapFontSize(TreeViewHandler handler, ITreeView spinner) => handler.UpdateFontSize();

@@ -26,5 +26,10 @@ namespace Maui.XaleToolkit.Samples.Samples.TreeView
             InitializeComponent();
             BindingContext = this;
         }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            SelectedItem = null;
+        }
     }
 }

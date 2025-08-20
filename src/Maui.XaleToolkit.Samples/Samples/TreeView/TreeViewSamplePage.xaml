@@ -12,12 +12,13 @@
             SelectedItem="{Binding SelectedItem}"
             ItemsSource="{Binding ItemsSource}"
             FontSize="14"
-            TextColor="Black">
-            <xale:TreeView.ItemTemplate>
-                <DataTemplate>
-                    <Label x:DataType="models:TestTreeNode" Text="{Binding Value}"/>
-                </DataTemplate>
-            </xale:TreeView.ItemTemplate>
-        </xale:TreeView>
+            TextColor="Black"/>
+        
+        <HorizontalStackLayout>
+            <Label Text="Selected:" Margin="3"/>
+            <Label Text="{Binding SelectedItem, TargetNullValue='null'}" Margin="3"/>
+        </HorizontalStackLayout>
+
+        <Button Text="Unselect" Clicked="Button_Clicked"/>
     </VerticalStackLayout>
 </ContentPage>

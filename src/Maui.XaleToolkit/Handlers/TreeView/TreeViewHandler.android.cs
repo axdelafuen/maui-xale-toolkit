@@ -17,11 +17,6 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             throw new NotImplementedException();
         }
 
-        private void UpdateItemTemplate()
-        {
-            throw new NotImplementedException();
-        }
-
         private void UpdateSelectedItem()
         {
             throw new NotImplementedException();

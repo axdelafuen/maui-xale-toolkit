@@ -63,30 +63,6 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 IsExpanded = false,
             };
 
-            /*
-             * THIS SHOULD BE USED FOR DATATEMPLATE :/
-             * 
-            if (VirtualView?.ItemTemplate != null && MauiContext != null)
-            {
-                var mauiContent = (View)VirtualView.ItemTemplate.CreateContent();
-                mauiContent.BindingContext = item;
-                
-                var nativeView = mauiContent.ToPlatform(MauiContext);
-
-                node.Content = nativeView;
-            }
-            else
-            {
-            
-                node.Content = new TextBlock
-                {
-                    Text = item?.ToString(),
-                    Foreground = VirtualView?.TextColor.ToPlatform() ?? Colors.Black.ToPlatform(),
-                    FontSize = VirtualView?.FontSize ?? 14.0
-                };
-            }
-            */
-
             var childrenProp = item?.GetType().GetProperty("Children");
             if (childrenProp?.GetValue(item) is IList children)
             {

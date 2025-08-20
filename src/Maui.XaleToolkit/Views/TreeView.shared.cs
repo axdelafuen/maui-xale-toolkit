@@ -9,7 +9,6 @@ namespace Maui.XaleToolkit.Views
         #region Bindable Properties
         public static readonly BindableProperty ItemsSourceProperty = BindableProperty.Create(nameof(ItemsSource), typeof(IList), typeof(TreeView), null);
         public static readonly BindableProperty SelectedItemProperty = BindableProperty.Create(nameof(SelectedItem), typeof(object), typeof(TreeView), default, defaultBindingMode: BindingMode.TwoWay, propertyChanged: OnSelectedItemChanged);
-        public static readonly BindableProperty ItemTemplateProperty = BindableProperty.Create(nameof(ItemTemplate), typeof(DataTemplate), typeof(TreeView), default);
         public static readonly BindableProperty TextColorProperty = BindableProperty.Create(nameof(TextColor), typeof(Color), typeof(TreeView), Colors.Black);
         public static readonly BindableProperty FontSizeProperty = BindableProperty.Create(nameof(FontSize), typeof(double), typeof(TreeView), 14.0);
         #endregion
@@ -19,12 +18,6 @@ namespace Maui.XaleToolkit.Views
         {
             get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
-        }
-
-        public DataTemplate ItemTemplate
-        {
-            get => (DataTemplate)GetValue(ItemTemplateProperty);
-            set => SetValue(ItemTemplateProperty, value);
         }
 
         public object? SelectedItem

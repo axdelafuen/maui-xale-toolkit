@@ -11,11 +11,6 @@ namespace Maui.XaleToolkit.Interfaces
         IList ItemsSource { get; set; }
 
         /// <summary>
-        /// Template to render each tree node.
-        /// </summary>
-        DataTemplate ItemTemplate { get; set; }
-
-        /// <summary>
         /// The currently selected item.
         /// </summary>
         object? SelectedItem { get; set; }
