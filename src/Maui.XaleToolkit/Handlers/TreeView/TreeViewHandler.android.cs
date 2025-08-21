@@ -4,65 +4,65 @@ using Maui.XaleToolkit.Interfaces;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using System.Collections;
+using ListView = Android.Widget.ListView;
 
 namespace Maui.XaleToolkit.Handlers.TreeView
 {
-    public partial class TreeViewHandler : ViewHandler<ITreeView, ExpandableListView>
+    public partial class TreeViewHandler : ViewHandler<ITreeView, ListView>
     {
-        private TreeViewAdapter? _adapter;
+        private RecursiveTreeViewAdapter? _adapter;
 
-        protected override ExpandableListView CreatePlatformView()
+        protected override ListView CreatePlatformView()
         {
             var context = Context ?? throw new InvalidOperationException("Context cannot be null");
-            return new ExpandableListView(context, null, Android.Resource.Attribute.ExpandableListPreferredChildIndicatorLeft, ExpandableListView.ChildIndicatorInherit);
+            return new ListView(context);
         }
 
-        protected override void ConnectHandler(ExpandableListView platformView)
+        protected override void ConnectHandler(ListView platformView)
         {
             base.ConnectHandler(platformView);
 
             if (_adapter == null && VirtualView?.ItemsSource != null)
             {
                 if (Context == null) return;
-                _adapter = new TreeViewAdapter(Context!, VirtualView);
-                platformView.SetAdapter(_adapter);
+                _adapter = new RecursiveTreeViewAdapter(Context!, VirtualView);
+                platformView.Adapter = _adapter;
                 UpdateItemsSource();
                 UpdateTextColor();
                 UpdateFontSize();
             }
 
-            platformView.ChildClick += OnChildClick;
-            platformView.GroupClick += OnGroupClick;
+            platformView.ItemClick += OnItemClick;
         }
 
-        protected override void DisconnectHandler(ExpandableListView platformView)
+        protected override void DisconnectHandler(ListView platformView)
         {
             if (platformView != null)
             {
-                platformView.ChildClick -= OnChildClick;
-                platformView.GroupClick -= OnGroupClick;
-                platformView.SetAdapter(null);
+                platformView.ItemClick -= OnItemClick;
+                platformView.Adapter = null;
             }
 
             _adapter?.Dispose();
             _adapter = null;
         }
 
-        private void OnChildClick(object? sender, ExpandableListView.ChildClickEventArgs e)
+        private void OnItemClick(object? sender, AdapterView.ItemClickEventArgs e)
         {
             if (VirtualView != null && _adapter != null)
             {
-                var selectedItem = _adapter.GetChild(e.GroupPosition, e.ChildPosition);
-                VirtualView.SelectedItem = selectedItem;
-            }
-        }
+                var treeItem = _adapter.GetTreeItem(e.Position);
+                
+                if (treeItem.HasChildren)
+                {
+                    _adapter.UpdateFlatList(treeItem);
+                    _adapter.NotifyDataSetChanged();
+                }
 
-        private void OnGroupClick(object? sender, ExpandableListView.GroupClickEventArgs e)
-        {
-            if (VirtualView != null && _adapter != null)
-            {
-                var selectedItem = _adapter.GetGroup(e.GroupPosition);
-                VirtualView.SelectedItem = selectedItem;
+                VirtualView.SelectedItem = treeItem.Data;
+                _adapter.SelectedItem = treeItem.Data;
+                _adapter.NotifyDataSetChanged();
+                UpdateControlHeight();
             }
         }
 
@@ -76,7 +76,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             {
                 if (VirtualView.ItemsSource == null)
                 {
-                    PlatformView.SetAdapter(null);
+                    PlatformView.Adapter = null;
                     _adapter?.Dispose();
                     _adapter = null;
                     return;
@@ -84,8 +84,8 @@ namespace Maui.XaleToolkit.Handlers.TreeView
 
                 if (_adapter == null)
                 {
-                    _adapter = new TreeViewAdapter(Context!, VirtualView);
-                    PlatformView.SetAdapter(_adapter);
+                    _adapter = new RecursiveTreeViewAdapter(Context!, VirtualView);
+                    PlatformView.Adapter = _adapter;
                 }
                 else
                 {
@@ -94,8 +94,9 @@ namespace Maui.XaleToolkit.Handlers.TreeView
 
                 UpdateTextColor();
                 UpdateFontSize();
+                UpdateControlHeight();
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         private void UpdateSelectedItem()
@@ -105,46 +106,10 @@ namespace Maui.XaleToolkit.Handlers.TreeView
 
             try
             {
-                var selectedItem = VirtualView.SelectedItem;
-                if (selectedItem == null)
-                {
-                    _adapter.SelectedItem = null;
-                    return;
-                }
-
-                _adapter.SelectedItem = selectedItem;
-
-                var itemsSource = VirtualView.ItemsSource as IEnumerable;
-                if (itemsSource != null)
-                {
-                    int groupIndex = 0;
-                    foreach (var group in itemsSource)
-                    {
-                        if (ReferenceEquals(group, selectedItem))
-                        {
-                            PlatformView.SetSelectedGroup(groupIndex);
-                            return;
-                        }
-
-                        if (TryGetChildren(group, out var children))
-                        {
-                            int childIndex = 0;
-                            foreach (var child in children)
-                            {
-                                if (ReferenceEquals(child, selectedItem))
-                                {
-                                    PlatformView.ExpandGroup(groupIndex);
-                                    PlatformView.SetSelectedChild(groupIndex, childIndex, true);
-                                    return;
-                                }
-                                childIndex++;
-                            }
-                        }
-                        groupIndex++;
-                    }
-                }
+                _adapter.SelectedItem = VirtualView.SelectedItem;
+                _adapter.NotifyDataSetChanged();
             }
-            catch (Exception) {}
+            catch (Exception) { }
         }
 
         private void UpdateTextColor()
@@ -158,9 +123,10 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 {
                     var androidColor = VirtualView.TextColor.ToPlatform();
                     _adapter.TextColor = androidColor.ToColor();
+                    _adapter.NotifyDataSetChanged();
                 }
             }
-            catch (Exception) {}
+            catch (Exception) { }
         }
 
         private void UpdateFontSize()
@@ -173,13 +139,40 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 if (_adapter != null && VirtualView.FontSize > 0)
                 {
                     _adapter.FontSize = (float)VirtualView.FontSize;
+                    _adapter.NotifyDataSetChanged();
                 }
             }
-            catch (Exception) {}
+            catch (Exception) { }
+        }
+
+        private void UpdateControlHeight()
+        {
+            if (PlatformView == null || VirtualView == null || _adapter == null || _adapter.Count == 0)
+                return;
+
+            var itemHeight = _adapter.GetItemHeight();
+            var visibleItems = _adapter.Count;
+            VirtualView.UpdateHeight(itemHeight * visibleItems);
         }
         #endregion
+    }
 
-        #region Helper Methods
+    #region Tree View Item
+    internal class TreeViewItem
+    {
+        public object Data { get; set; }
+        public int Level { get; set; }
+        public bool IsExpanded { get; set; }
+        public bool HasChildren { get; set; }
+
+        public TreeViewItem(object data, int level)
+        {
+            Data = data;
+            Level = level;
+            IsExpanded = false;
+            HasChildren = TryGetChildren(data, out _);
+        }
+
         private bool TryGetChildren(object item, out IEnumerable children)
         {
             children = null!;
@@ -187,185 +180,193 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             if (item == null)
                 return false;
 
-            // Try to get children using common property names
-            var type = item.GetType();
-            var childrenProperty = type.GetProperty("Children") ??
-                                 type.GetProperty("Items") ??
-                                 type.GetProperty("SubItems");
-
-            if (childrenProperty != null && typeof(IEnumerable).IsAssignableFrom(childrenProperty.PropertyType))
+            try
             {
-                children = childrenProperty.GetValue(item) as IEnumerable;
-                return children != null;
+                var type = item.GetType();
+                var childrenProperty = type.GetProperty("Children");
+
+                if (childrenProperty?.GetValue(item) is IEnumerable childItems)
+                {
+                    children = childItems;
+                    foreach (var child in children)
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
             return false;
         }
-        #endregion
+
+        public IEnumerable<object> GetChildren()
+        {
+            if (!HasChildren) yield break;
+
+            var type = Data.GetType();
+            var childrenProperty = type.GetProperty("Children");
+
+            if (childrenProperty?.GetValue(Data) is IEnumerable children)
+            {
+                foreach (var child in children)
+                {
+                    if (child != null)
+                        yield return child;
+                }
+            }
+
+            yield break;
+        }
     }
+    #endregion
 
     #region Adapter
-    internal class TreeViewAdapter : BaseExpandableListAdapter
+    internal class RecursiveTreeViewAdapter : BaseAdapter
     {
-        private readonly ITreeView _treeView;
         private readonly Android.Content.Context _context;
         private IEnumerable? _itemsSource;
+        private readonly List<TreeViewItem> _flatList = [];
+        private readonly HashSet<object> _expandedItems = [];
 
         public object? SelectedItem { get; set; }
         public Color TextColor { get; set; } = Colors.Black;
         public float FontSize { get; set; } = 14f;
 
-        public TreeViewAdapter(Android.Content.Context context, ITreeView treeView)
+        public RecursiveTreeViewAdapter(Android.Content.Context context, ITreeView treeView)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
-            _treeView = treeView ?? throw new ArgumentNullException(nameof(treeView));
             _itemsSource = treeView.ItemsSource;
+            RebuildFlatList();
         }
 
         public void UpdateItemsSource(IEnumerable itemsSource)
         {
             _itemsSource = itemsSource;
+            RebuildFlatList();
             NotifyDataSetChanged();
         }
 
-        public override int GroupCount => _itemsSource?.Cast<object>().Count() ?? 0;
-
-        public override bool HasStableIds => false;
-
-        public override Java.Lang.Object GetChild(int groupPosition, int childPosition)
+        public void UpdateFlatList(TreeViewItem currentTreeView)
         {
-            var group = GetGroup(groupPosition);
-            if (TryGetChildren(group, out var children))
-            {
-                return children.Cast<object>().ElementAtOrDefault(childPosition).ToJavaObject();
-            }
-            return new Java.Lang.String("No Data");
-        }
-
-        public override long GetChildId(int groupPosition, int childPosition) => childPosition;
-
-        public override int GetChildrenCount(int groupPosition)
-        {
-            var group = GetGroup(groupPosition);
-            if (TryGetChildren(group, out var children))
-            {
-                return children.Cast<object>().Count();
-            }
-            return 0;
-        }
-
-        public override Android.Views.View? GetChildView(int groupPosition, int childPosition, bool isLastChild, Android.Views.View? convertView, ViewGroup? parent)
-        {
-            var child = GetChild(groupPosition, childPosition);
-            var childObj = child.ToNetObject();
-
-            var textView = convertView as TextView ?? new TextView(_context);
-            textView.Text = childObj?.ToString() ?? "";
-            //textView.SetTextColor(TextColor);
-            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
-            textView.SetPadding(60, 16, 16, 16); // Indent child items
-
-            if (ReferenceEquals(childObj, SelectedItem))
-            {
-                textView.SetBackgroundColor(Colors.LightGray.ToPlatform());
-            }
+            var key = currentTreeView.Data;
+            if (_expandedItems.Contains(key))
+                _expandedItems.Remove(key);
             else
-            {
-                textView.SetBackgroundColor(Colors.Transparent.ToPlatform());
-            }
+                _expandedItems.Add(key);
 
-            return textView;
+            RebuildFlatList();
+            NotifyDataSetChanged();
         }
 
-        public override Java.Lang.Object GetGroup(int groupPosition)
+        public void RebuildFlatList()
         {
+            _flatList.Clear();
             if (_itemsSource != null)
             {
-                return _itemsSource.Cast<object>().ElementAtOrDefault(groupPosition).ToJavaObject();
+                foreach (var item in _itemsSource)
+                {
+                    AddItemRecursively(item, 0);
+                }
             }
-            return new Java.Lang.String("No Data");
         }
 
-        public override long GetGroupId(int groupPosition) => groupPosition;
 
-        public override Android.Views.View? GetGroupView(int groupPosition, bool isExpanded, Android.Views.View? convertView, ViewGroup? parent)
+        private void AddItemRecursively(object item, int level)
         {
-            var group = GetGroup(groupPosition);
-            var groupObj = group.ToNetObject();
+            bool isExpanded = _expandedItems.Contains(item);
 
-            var textView = convertView as TextView ?? new TextView(_context);
-            textView.Text = groupObj?.ToString() ?? "";
-            //textView.SetTextColor(TextColor);
-            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
-            textView.SetPadding(16, 16, 16, 16);
-
-            // Highlight if selected
-            if (ReferenceEquals(groupObj, SelectedItem))
+            var treeItem = new TreeViewItem(item, level)
             {
-                textView.SetBackgroundColor(Colors.LightGray.ToPlatform());
+                IsExpanded = isExpanded
+            };
+
+            _flatList.Add(treeItem);
+
+            if (isExpanded && treeItem.HasChildren)
+            {
+                foreach (var child in treeItem.GetChildren())
+                {
+                    AddItemRecursively(child, level + 1);
+                }
+            }
+        }
+
+        public override int Count => _flatList.Count;
+
+        public override Java.Lang.Object GetItem(int position)
+        {
+            return Java.Lang.Integer.ValueOf(position);
+        }
+
+        public TreeViewItem GetTreeItem(int position) => _flatList[position];
+
+        public override long GetItemId(int position) => position;
+
+        public override Android.Views.View? GetView(int position, Android.Views.View? convertView, ViewGroup? parent)
+        {
+            var treeItem = _flatList[position];
+
+            LinearLayout? itemLayout = null;
+            TextView? textView = null;
+            TextView? expandIcon = null;
+
+            if (convertView is LinearLayout existingLayout)
+            {
+                itemLayout = existingLayout;
+                expandIcon = itemLayout.GetChildAt(0) as TextView;
+                textView = itemLayout.GetChildAt(1) as TextView;
             }
             else
             {
-                textView.SetBackgroundColor(Colors.Transparent.ToPlatform());
+                itemLayout = new LinearLayout(_context)
+                {
+                    Orientation = Orientation.Horizontal
+                };
+                itemLayout.SetVerticalGravity(GravityFlags.CenterVertical);
+
+                expandIcon = new TextView(_context);
+                textView = new TextView(_context);
+
+                itemLayout.AddView(expandIcon);
+                itemLayout.AddView(textView);
             }
 
-            return textView;
-        }
+            int indentationPx = (int)(treeItem.Level * 40 * _context.Resources.DisplayMetrics.Density);
+            itemLayout.SetPadding(indentationPx + 16, 16, 16, 16);
 
-        public override bool IsChildSelectable(int groupPosition, int childPosition) => true;
-
-        private bool TryGetChildren(Java.Lang.Object javaGroup, out IEnumerable children)
-        {
-            children = null!;
-            var group = javaGroup.ToNetObject();
-
-            if (group == null)
-                return false;
-
-            var type = group.GetType();
-            var childrenProperty = type.GetProperty("Children") ??
-                                 type.GetProperty("Items") ??
-                                 type.GetProperty("SubItems");
-
-            if (childrenProperty != null && typeof(IEnumerable).IsAssignableFrom(childrenProperty.PropertyType))
+            if (treeItem.HasChildren)
             {
-                children = childrenProperty.GetValue(group) as IEnumerable;
-                return children != null;
+                expandIcon.Text = treeItem.IsExpanded ? "▼ " : "▶ ";
+                expandIcon.SetTextColor(TextColor.ToPlatform());
+                expandIcon.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize * 0.8f);
+                expandIcon.Visibility = ViewStates.Visible;
             }
+            else
+            {
+                expandIcon.Text = "  ";
+                expandIcon.Visibility = ViewStates.Invisible;
+            }
+            
+            textView.Text = treeItem.Data?.ToString() ?? "";
+            textView.SetTextColor(TextColor.ToPlatform());
+            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
 
-            return false;
+            return itemLayout;
         }
-    }
-    #endregion
-
-    #region Extensions
-    internal static class ObjectExtensions
-    {
-        public static Java.Lang.Object ToJavaObject(this object obj)
+        public double GetItemHeight()
         {
-            if (obj == null) return new Java.Lang.String("No Data");
-            if (obj is Java.Lang.Object javaObj) return javaObj;
-            return new JavaObjectWrapper(obj);
+            if (_flatList.Count == 0)
+                return 0;
+
+            var view = GetView(0, null, null);
+            view?.Measure(
+                Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified),
+                Android.Views.View.MeasureSpec.MakeMeasureSpec(0, MeasureSpecMode.Unspecified));
+            return view?.MeasuredHeight * 0.7 ?? 0;
         }
-
-        public static object? ToNetObject(this Java.Lang.Object javaObj)
-        {
-            if (javaObj is JavaObjectWrapper wrapper)
-                return wrapper.WrappedObject;
-            return javaObj;
-        }
-    }
-
-    internal class JavaObjectWrapper : Java.Lang.Object
-    {
-        public object WrappedObject { get; }
-
-        public JavaObjectWrapper(object obj)
-        {
-            WrappedObject = obj ?? throw new ArgumentNullException(nameof(obj));
-        }
-
-        public override string ToString() => WrappedObject.ToString() ?? "";
     }
     #endregion
 }

@@ -54,5 +54,10 @@ namespace Maui.XaleToolkit.Views
         {
             SelectedItemChanged?.Invoke(this, new TreeViewSelectedItemChangedEventArgs(SelectedItem));
         }
+
+        public void UpdateHeight(double height)
+        {
+            HeightRequest = height;
+        }
     }
 }

@@ -29,5 +29,7 @@ namespace Maui.XaleToolkit.Interfaces
         /// Event triggered when selection changes.
         /// </summary>
         event EventHandler<TreeViewSelectedItemChangedEventArgs> SelectedItemChanged;
+
+        void UpdateHeight(double height);
     }
 }

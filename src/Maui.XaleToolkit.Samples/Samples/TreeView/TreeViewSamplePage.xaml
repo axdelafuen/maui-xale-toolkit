@@ -7,18 +7,21 @@
              x:Class="Maui.XaleToolkit.Samples.Samples.TreeView.TreeViewSamplePage"
              x:DataType="local:TreeViewSamplePage"
              Title="TreeViewSamplePage">
-    <VerticalStackLayout>
-        <xale:TreeView
-            SelectedItem="{Binding SelectedItem}"
-            ItemsSource="{Binding ItemsSource}"
-            FontSize="14"
-            TextColor="Black"/>
-        
-        <HorizontalStackLayout>
-            <Label Text="Selected:" Margin="3"/>
-            <Label Text="{Binding SelectedItem, TargetNullValue='null'}" Margin="3"/>
-        </HorizontalStackLayout>
 
-        <Button Text="Unselect" Clicked="Button_Clicked"/>
+    <ScrollView>
+        <VerticalStackLayout>
+            <xale:TreeView
+                SelectedItem="{Binding SelectedItem}"
+                ItemsSource="{Binding ItemsSource}"
+                FontSize="14"
+                TextColor="Black"/>
+
+            <HorizontalStackLayout>
+                <Label Text="Selected:" Margin="3"/>
+                <Label Text="{Binding SelectedItem, TargetNullValue='null'}" Margin="3"/>
+            </HorizontalStackLayout>
+
+            <Button Text="Unselect" Clicked="Button_Clicked"/>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
