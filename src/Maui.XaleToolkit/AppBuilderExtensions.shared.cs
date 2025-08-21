@@ -1,4 +1,5 @@
 ﻿using Maui.XaleToolkit.Handlers.ComboBox;
+using Maui.XaleToolkit.Handlers.TreeView;
 using Maui.XaleToolkit.Views;
 using System.Runtime.Versioning;
 
@@ -23,6 +24,7 @@ namespace Maui.XaleToolkit
             builder.ConfigureMauiHandlers(handlers =>
             {
                 handlers.AddHandler<ComboBox, ComboBoxHandler>();
+                handlers.AddHandler<TreeView, TreeViewHandler>();
             });
 
             return builder;

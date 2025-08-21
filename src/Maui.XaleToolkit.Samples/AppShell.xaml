@@ -15,4 +15,9 @@
         Title="ComboBox Sample"
         ContentTemplate="{DataTemplate local:Samples.ComboBox.ComboBoxSamplePage}"
         Route="ComboBoxSamplePage" />
+    
+    <ShellContent
+        Title="TreeView Sample"
+        ContentTemplate="{DataTemplate local:Samples.TreeView.TreeViewSamplePage}"
+        Route="TreeViewSamplePage"/>
 </Shell>

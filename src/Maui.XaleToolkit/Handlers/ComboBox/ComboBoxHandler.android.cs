@@ -97,6 +97,46 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
+        private void SafeDisposeAdapter()
+        {
+            try
+            {
+                if (_adapter != null && !_adapter.IsDisposed)
+                {
+                    if (PlatformView != null)
+                    {
+                        PlatformView.Adapter = null;
+                    }
+
+                    _adapter.Dispose();
+                }
+            }
+            catch (Exception) { }
+            finally
+            {
+                _adapter = null;
+                _isInitialized = false;
+            }
+        }
+
+        protected override void DisconnectHandler(MauiComboBox platformView)
+        {
+            try
+            {
+                if (platformView != null)
+                {
+                    platformView.ItemSelected -= OnItemSelected;
+                }
+            }
+            catch (Exception) { }
+            finally
+            {
+                SafeDisposeAdapter();
+                base.DisconnectHandler(platformView);
+                _isInitialized = false;
+            }
+        }
+
         #region Update Methods
         private void UpdateItemsSource()
         {
@@ -186,47 +226,9 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
         }
         #endregion
 
-        private void SafeDisposeAdapter()
-        {
-            try
-            {
-                if (_adapter != null && !_adapter.IsDisposed)
-                {
-                    if (PlatformView != null)
-                    {
-                        PlatformView.Adapter = null;
-                    }
-
-                    _adapter.Dispose();
-                }
-            }
-            catch (Exception) { }
-            finally
-            {
-                _adapter = null;
-                _isInitialized = false;
-            }
-        }
-
-        protected override void DisconnectHandler(MauiComboBox platformView)
-        {
-            try
-            {
-                if (platformView != null)
-                {
-                    platformView.ItemSelected -= OnItemSelected;
-                }
-            }
-            catch (Exception) { }
-            finally
-            {
-                SafeDisposeAdapter();
-                base.DisconnectHandler(platformView);
-                _isInitialized = false;
-            }
-        }
     }
 
+    #region Adapter
     internal class SpinnerAdapter : BaseAdapter, ISpinnerAdapter
     {
         private readonly LayoutInflater? _inflater;
@@ -370,4 +372,5 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
     }
+    #endregion
 }

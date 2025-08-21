@@ -10,7 +10,8 @@ This repository aims to fill that gap by implementing some of them during my fre
 
 | Status | Control | Platforms | Comment |
 | - | - | - | - |
-| 🟢 | ComboBox | Android & Windows | _I dont have Mac/Apple device to develop for Maccalyste & iOS platforms._ |
+| 🟢 | ComboBox | Android & Windows | _I dont have Mac/Apple device to develop/test for Maccalyste & iOS platforms._ |
+| 🟠 | TreeView | Android & Windows | _I dont have Mac/Apple device to develop/test for Maccalyste & iOS platforms._ |
 
 **Legend:**  
 🟢 Fully functional  
