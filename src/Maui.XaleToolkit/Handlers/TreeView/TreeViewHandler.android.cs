@@ -181,7 +181,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             HasChildren = TryGetChildren(data, out _);
         }
 
-        private bool TryGetChildren(object item, out IEnumerable children)
+        private static bool TryGetChildren(object item, out IEnumerable children)
         {
             children = null!;
 
@@ -260,9 +260,8 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         internal void UpdateFlatList(TreeViewItem currentTreeView)
         {
             var key = currentTreeView.Data;
-            if (_expandedItems.Contains(key))
-                _expandedItems.Remove(key);
-            else
+
+            if (!_expandedItems.Remove(key))
                 _expandedItems.Add(key);
 
             RebuildFlatList();
@@ -316,9 +315,9 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         {
             var treeItem = _flatList[position];
 
-            LinearLayout? itemLayout = null;
-            TextView? textView = null;
-            TextView? expandIcon = null;
+            LinearLayout? itemLayout;
+            TextView? textView;
+            TextView? expandIcon;
 
             if (convertView is LinearLayout existingLayout)
             {
@@ -341,25 +340,28 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 itemLayout.AddView(textView);
             }
 
-            int indentationPx = (int)(treeItem.Level * 40 * _context.Resources.DisplayMetrics.Density);
+            int indentationPx = (int)(treeItem.Level * 40 * (_context.Resources?.DisplayMetrics?.Density ?? 1));
             itemLayout.SetPadding(indentationPx + 16, 16, 16, 16);
 
-            if (treeItem.HasChildren)
+            if (treeItem.HasChildren && expandIcon != null)
             {
                 expandIcon.Text = treeItem.IsExpanded ? "▼ " : "▶ ";
                 expandIcon.SetTextColor(TextColor.ToPlatform());
                 expandIcon.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize * 0.8f);
                 expandIcon.Visibility = ViewStates.Visible;
             }
-            else
+            else if (expandIcon != null)
             {
                 expandIcon.Text = "  ";
                 expandIcon.Visibility = ViewStates.Invisible;
             }
             
-            textView.Text = treeItem.Data?.ToString() ?? "";
-            textView.SetTextColor(TextColor.ToPlatform());
-            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
+            if (textView != null)
+            {
+                textView.Text = treeItem.Data?.ToString() ?? "";
+                textView.SetTextColor(TextColor.ToPlatform());
+                textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
+            }
 
             return itemLayout;
         }
