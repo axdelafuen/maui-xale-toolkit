@@ -25,59 +25,45 @@ namespace Maui.XaleToolkit.Views
 
         #region Properties
 
-        /// <summary>
-        /// Gets or sets the collection of items displayed.
-        /// </summary>
+        /// <inheritdoc/>
         public IList ItemsSource
         {
             get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the currently selected item.
-        /// </summary>
+        /// <inheritdoc/>
         public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the index of the currently selected item.
-        /// </summary>
+        /// <inheritdoc/>
         public int SelectedIndex { get; set; } = -1;
 
-        /// <summary>
-        /// Gets or sets the placeholder text displayed when no item is selected.
-        /// </summary>
+        /// <inheritdoc/>
         public string Placeholder
         {
             get => (string)GetValue(PlaceholderProperty);
             set => SetValue(PlaceholderProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the color of the text displayed.
-        /// </summary>
+        /// <inheritdoc/>
         public Color TextColor
         {
             get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets the font size of the text displayed.
-        /// </summary>
+        /// <inheritdoc/>
         public double FontSize
         {
             get => (double)GetValue(FontSizeProperty);
             set => SetValue(FontSizeProperty, value);
         }
 
-        /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="ComboBox"/> is enabled.
-        /// </summary>
+        /// <inheritdoc/>
         public new bool IsEnabled
         {
             get => (bool)GetValue(IsEnabledProperty);
@@ -86,9 +72,7 @@ namespace Maui.XaleToolkit.Views
 
         #endregion
 
-        /// <summary>
-        /// Occurs when the selection changes.
-        /// </summary>
+        /// <inheritdoc/>
         public event EventHandler<ComboBoxSelectedItemChangedEventArgs>? SelectedItemChanged;
 
         private static void OnItemsSourceChanged(BindableObject bindable, object oldValue, object newValue)
@@ -145,6 +129,9 @@ namespace Maui.XaleToolkit.Views
             }
         }
 
+        /// <summary>
+        /// Raises the <see cref="SelectedItemChanged"/> event.
+        /// </summary>
         protected virtual void OnSelectionChanged()
         {
             if (_previousSelection is object previous)

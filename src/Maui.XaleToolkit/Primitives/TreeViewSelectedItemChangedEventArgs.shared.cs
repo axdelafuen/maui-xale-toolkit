@@ -3,7 +3,7 @@
 namespace Maui.XaleToolkit.Primitives
 {
     /// <summary>
-    /// Event arguments for the SelectedItemChanged event of a <see cref="IComboBox"/> control.
+    /// Event arguments for the SelectedItemChanged event of a <see cref="ITreeView"/> control.
     /// </summary>
     /// <param name="selectedItem">The selected item</param>
     public class TreeViewSelectedItemChangedEventArgs(object? selectedItem) : EventArgs
