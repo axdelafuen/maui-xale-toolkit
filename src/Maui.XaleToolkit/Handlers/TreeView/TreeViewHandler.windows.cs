@@ -55,7 +55,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             }
         }
 
-        private TreeViewNode CreateNode(object item)
+        private static TreeViewNode CreateNode(object item)
         {
             var node = new TreeViewNode
             {
@@ -73,7 +73,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             return node;
         }
 
-        private TreeViewNode? FindNode(TreeViewNode node, object target)
+        private static TreeViewNode? FindNode(TreeViewNode node, object target)
         {
             if (node.Content == target || (node.Content as ContentControl)?.Content == target)
                 return node;

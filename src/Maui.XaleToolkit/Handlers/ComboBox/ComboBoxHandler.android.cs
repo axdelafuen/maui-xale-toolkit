@@ -229,6 +229,9 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
     }
 
     #region Adapter
+    /// <summary>
+    /// Adapter for the Adnroid Spinner control
+    /// </summary>
     internal class SpinnerAdapter : BaseAdapter, ISpinnerAdapter
     {
         private readonly LayoutInflater? _inflater;
@@ -236,10 +239,17 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
         private string _placeholder;
         private bool _isDisposed;
 
-        public int SelectedIndex { get; set; } = -1;
-        public bool IsDisposed => _isDisposed;
+        internal int SelectedIndex { get; set; } = -1;
+        internal bool IsDisposed => _isDisposed;
 
-        public SpinnerAdapter(Context context, IList? items, string placeholder, int selectedIndex) : base()
+        /// <summary>
+        /// Constructor of the SpinnerAdapter
+        /// </summary>
+        /// <param name="context">The current <see cref="Context"/>.</param>
+        /// <param name="items">The list of items of the dropdown spinner.</param>
+        /// <param name="placeholder">The placeholder.</param>
+        /// <param name="selectedIndex">The current slected item.</param>
+        internal SpinnerAdapter(Context context, IList? items, string placeholder, int selectedIndex) : base()
         {
             _inflater = LayoutInflater.From(context);
             _items = items ?? new List<object>();
@@ -330,7 +340,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             }
         }
 
-        public void UpdateItems(IList? items, string title, int selectedIndex)
+        internal void UpdateItems(IList? items, string title, int selectedIndex)
         {
             if (_isDisposed) return;
 
@@ -344,7 +354,7 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
             catch (Exception) { }
         }
 
-        public void UpdateTitle(string title)
+        internal void UpdateTitle(string title)
         {
             if (_isDisposed) return;
 

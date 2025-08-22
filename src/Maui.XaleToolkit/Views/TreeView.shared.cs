@@ -4,6 +4,9 @@ using System.Collections;
 
 namespace Maui.XaleToolkit.Views
 {
+    /// <summary>
+    /// A <see cref="TreeView"/> control for displaying hierarchical data.
+    /// </summary>
     public partial class TreeView : View, ITreeView
     {
         #region Bindable Properties
@@ -14,24 +17,29 @@ namespace Maui.XaleToolkit.Views
         #endregion
 
         #region Properties
+        
+        /// <inheritdoc/>
         public IList ItemsSource
         {
             get => (IList)GetValue(ItemsSourceProperty);
             set => SetValue(ItemsSourceProperty, value);
         }
 
+        /// <inheritdoc/>
         public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);
         }
 
+        /// <inheritdoc/>
         public Color TextColor
         {
             get => (Color)GetValue(TextColorProperty);
             set => SetValue(TextColorProperty, value);
         }
 
+        /// <inheritdoc/>
         public double FontSize
         {
             get => (double)GetValue(FontSizeProperty);
@@ -39,6 +47,7 @@ namespace Maui.XaleToolkit.Views
         }
         #endregion
 
+        /// <inheritdoc/>
         public event EventHandler<TreeViewSelectedItemChangedEventArgs>? SelectedItemChanged;
 
         private static void OnSelectedItemChanged(BindableObject bindable, object oldValue, object newValue)
@@ -50,11 +59,15 @@ namespace Maui.XaleToolkit.Views
             }
         }
 
+        /// <summary>
+        /// Raises the SelectedItemChanged event.
+        /// </summary>
         protected virtual void OnSelectionChanged()
         {
             SelectedItemChanged?.Invoke(this, new TreeViewSelectedItemChangedEventArgs(SelectedItem));
         }
 
+        /// <inheritdoc/>
         public void UpdateHeight(double height)
         {
             HeightRequest = height;

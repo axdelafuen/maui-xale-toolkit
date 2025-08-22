@@ -158,6 +158,9 @@ namespace Maui.XaleToolkit.Handlers.TreeView
     }
 
     #region Tree View Item
+    /// <summary>
+    /// Represents an item in the tree view with its hierarchical level and expansion state.
+    /// </summary>
     internal class TreeViewItem
     {
         public object Data { get; set; }
@@ -165,7 +168,12 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         public bool IsExpanded { get; set; }
         public bool HasChildren { get; set; }
 
-        public TreeViewItem(object data, int level)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TreeViewItem"/> class.
+        /// </summary>
+        /// <param name="data">The current object for the <see cref="TreeViewItem"/>.</param>
+        /// <param name="level">The level of the tree.</param>
+        internal TreeViewItem(object data, int level)
         {
             Data = data;
             Level = level;
@@ -173,7 +181,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             HasChildren = TryGetChildren(data, out _);
         }
 
-        private bool TryGetChildren(object item, out IEnumerable children)
+        private static bool TryGetChildren(object item, out IEnumerable children)
         {
             children = null!;
 
@@ -202,7 +210,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             return false;
         }
 
-        public IEnumerable<object> GetChildren()
+        internal IEnumerable<object> GetChildren()
         {
             if (!HasChildren) yield break;
 
@@ -231,37 +239,36 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         private readonly List<TreeViewItem> _flatList = [];
         private readonly HashSet<object> _expandedItems = [];
 
-        public object? SelectedItem { get; set; }
-        public Color TextColor { get; set; } = Colors.Black;
-        public float FontSize { get; set; } = 14f;
+        internal object? SelectedItem { get; set; }
+        internal Color TextColor { get; set; } = Colors.Black;
+        internal float FontSize { get; set; } = 14f;
 
-        public RecursiveTreeViewAdapter(Android.Content.Context context, ITreeView treeView)
+        internal RecursiveTreeViewAdapter(Android.Content.Context context, ITreeView treeView)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _itemsSource = treeView.ItemsSource;
             RebuildFlatList();
         }
 
-        public void UpdateItemsSource(IEnumerable itemsSource)
+        internal void UpdateItemsSource(IEnumerable itemsSource)
         {
             _itemsSource = itemsSource;
             RebuildFlatList();
             NotifyDataSetChanged();
         }
 
-        public void UpdateFlatList(TreeViewItem currentTreeView)
+        internal void UpdateFlatList(TreeViewItem currentTreeView)
         {
             var key = currentTreeView.Data;
-            if (_expandedItems.Contains(key))
-                _expandedItems.Remove(key);
-            else
+
+            if (!_expandedItems.Remove(key))
                 _expandedItems.Add(key);
 
             RebuildFlatList();
             NotifyDataSetChanged();
         }
 
-        public void RebuildFlatList()
+        internal void RebuildFlatList()
         {
             _flatList.Clear();
             if (_itemsSource != null)
@@ -273,8 +280,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             }
         }
 
-
-        private void AddItemRecursively(object item, int level)
+        internal void AddItemRecursively(object item, int level)
         {
             bool isExpanded = _expandedItems.Contains(item);
 
@@ -301,7 +307,7 @@ namespace Maui.XaleToolkit.Handlers.TreeView
             return Java.Lang.Integer.ValueOf(position);
         }
 
-        public TreeViewItem GetTreeItem(int position) => _flatList[position];
+        internal TreeViewItem GetTreeItem(int position) => _flatList[position];
 
         public override long GetItemId(int position) => position;
 
@@ -309,9 +315,9 @@ namespace Maui.XaleToolkit.Handlers.TreeView
         {
             var treeItem = _flatList[position];
 
-            LinearLayout? itemLayout = null;
-            TextView? textView = null;
-            TextView? expandIcon = null;
+            LinearLayout? itemLayout;
+            TextView? textView;
+            TextView? expandIcon;
 
             if (convertView is LinearLayout existingLayout)
             {
@@ -334,29 +340,33 @@ namespace Maui.XaleToolkit.Handlers.TreeView
                 itemLayout.AddView(textView);
             }
 
-            int indentationPx = (int)(treeItem.Level * 40 * _context.Resources.DisplayMetrics.Density);
+            int indentationPx = (int)(treeItem.Level * 40 * (_context.Resources?.DisplayMetrics?.Density ?? 1));
             itemLayout.SetPadding(indentationPx + 16, 16, 16, 16);
 
-            if (treeItem.HasChildren)
+            if (treeItem.HasChildren && expandIcon != null)
             {
                 expandIcon.Text = treeItem.IsExpanded ? "▼ " : "▶ ";
                 expandIcon.SetTextColor(TextColor.ToPlatform());
                 expandIcon.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize * 0.8f);
                 expandIcon.Visibility = ViewStates.Visible;
             }
-            else
+            else if (expandIcon != null)
             {
                 expandIcon.Text = "  ";
                 expandIcon.Visibility = ViewStates.Invisible;
             }
             
-            textView.Text = treeItem.Data?.ToString() ?? "";
-            textView.SetTextColor(TextColor.ToPlatform());
-            textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
+            if (textView != null)
+            {
+                textView.Text = treeItem.Data?.ToString() ?? "";
+                textView.SetTextColor(TextColor.ToPlatform());
+                textView.SetTextSize(Android.Util.ComplexUnitType.Sp, FontSize);
+            }
 
             return itemLayout;
         }
-        public double GetItemHeight()
+
+        internal double GetItemHeight()
         {
             if (_flatList.Count == 0)
                 return 0;

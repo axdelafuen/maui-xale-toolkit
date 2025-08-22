@@ -3,6 +3,9 @@ using System.Collections;
 
 namespace Maui.XaleToolkit.Interfaces
 {
+    /// <summary>
+    /// Interface for a <see cref="ITreeView"/> control.
+    /// </summary>
     public interface ITreeView : IView
     {
         /// <summary>
@@ -30,6 +33,10 @@ namespace Maui.XaleToolkit.Interfaces
         /// </summary>
         event EventHandler<TreeViewSelectedItemChangedEventArgs> SelectedItemChanged;
 
+        /// <summary>
+        /// Force update the height of the control
+        /// </summary>
+        /// <param name="height"></param>
         void UpdateHeight(double height);
     }
 }

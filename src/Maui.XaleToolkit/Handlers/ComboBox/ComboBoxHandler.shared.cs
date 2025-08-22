@@ -3,6 +3,9 @@ using Microsoft.Maui.Handlers;
 
 namespace Maui.XaleToolkit.Handlers.ComboBox
 {
+    /// <summary>
+    /// Handler for the <see cref="IComboBox"/> control.
+    /// </summary>
     public partial class ComboBoxHandler
     {
         new private readonly static IPropertyMapper<IComboBox, ComboBoxHandler> ViewMapper = new PropertyMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewMapper)
@@ -18,6 +21,9 @@ namespace Maui.XaleToolkit.Handlers.ComboBox
 
         new private readonly static CommandMapper<IComboBox, ComboBoxHandler> ViewCommandMapper = new CommandMapper<IComboBox, ComboBoxHandler>(ViewHandler.ViewCommandMapper);
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ComboBoxHandler"/> class.
+        /// </summary>
         public ComboBoxHandler() : base(ViewMapper, ViewCommandMapper) { }
 
         private static void MapItemsSource(ComboBoxHandler handler, IComboBox spinner) => handler.UpdateItemsSource();
