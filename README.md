@@ -29,7 +29,7 @@ _A NuGet package is currently available on my GitHub account, but an access toke
 In order to use the `Maui.XaleToolkit` you need to call the extension method in your `MauiProgram.cs` file as follows:
 
 ```cs
-using CommunityToolkit.Maui;
+using Maui.XaleToolkit;
 
 public static class MauiProgram
 {
